@@ -17,18 +17,18 @@ using NetKubernetes.Token;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionMySqlString = builder.Configuration.GetConnectionString("MySqlHeroku");
-builder.Services.AddDbContext<AppDbContext>(options =>{
-    options.UseMySql(connectionMySqlString, ServerVersion.AutoDetect(connectionMySqlString));
-});
-//Conexion a SQl Server
-// builder.Services.AddDbContext<AppDbContext>(opt => {
-//     opt.LogTo(Console.WriteLine, new [] {
-//         DbLoggerCategory.Database.Command.Name}, 
-//         LogLevel.Information).EnableSensitiveDataLogging();
-    
-//     opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")!);
+// var connectionMySqlString = builder.Configuration.GetConnectionString("MySqlHeroku");
+// builder.Services.AddDbContext<AppDbContext>(options =>{
+//     options.UseMySql(connectionMySqlString, ServerVersion.AutoDetect(connectionMySqlString));
 // });
+//Conexion a SQl Server
+builder.Services.AddDbContext<AppDbContext>(opt => {
+    opt.LogTo(Console.WriteLine, new [] {
+        DbLoggerCategory.Database.Command.Name}, 
+        LogLevel.Information).EnableSensitiveDataLogging();
+    
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")!);
+});
 
 builder.Services.AddScoped<IInmuebleRepository, InmuebleRepository>();
 
